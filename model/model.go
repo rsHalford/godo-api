@@ -18,7 +18,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -32,7 +32,8 @@ type Todo struct {
 }
 
 func InitDB() {
-	dbLoaded, err := gorm.Open(sqlite.Open("todos.db"), &gorm.Config{})
+	dsn := "host=localhost user=user password=password dbname=goapi port=5432"
+	dbLoaded, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Cannot connect to DB")
 	}
