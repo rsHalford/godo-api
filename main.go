@@ -25,8 +25,8 @@ import (
 )
 
 var (
-	username = hasher("admin")
-	password = hasher("secret")
+	username = hasher("username")
+	password = hasher("password")
 	realm    = "Please enter your username and password to gain access to this API"
 )
 
@@ -58,10 +58,10 @@ func handleRequests() {
 	router.HandleFunc("/", HomePage)
 	router.HandleFunc("/api/v1/todo", BasicAuth(model.CreateTodo, username, password, realm)).Methods("POST")
 	router.HandleFunc("/api/v1/todo", BasicAuth(model.GetTodos, username, password, realm)).Methods("GET")
-	router.HandleFunc("api/v1/todo/{id}", BasicAuth(model.GetTodo, username, password, realm)).Methods("GET")
-	router.HandleFunc("api/v1/todo/{id}", BasicAuth(model.UpdateTodo, username, password, realm)).Methods("PUT")
-	router.HandleFunc("api/v1/todo/{id}", BasicAuth(model.DeleteTodo, username, password, realm)).Methods("DELETE")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	router.HandleFunc("/api/v1/todo/{id}", BasicAuth(model.GetTodo, username, password, realm)).Methods("GET")
+	router.HandleFunc("/api/v1/todo/{id}", BasicAuth(model.UpdateTodo, username, password, realm)).Methods("PUT")
+	router.HandleFunc("/api/v1/todo/{id}", BasicAuth(model.DeleteTodo, username, password, realm)).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func main() {
