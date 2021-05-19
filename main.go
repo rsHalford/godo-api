@@ -16,7 +16,6 @@ package main
 import (
 	"crypto/sha256"
 	"crypto/subtle"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -30,11 +29,7 @@ var (
 	realm    = "Please enter your username and password to gain access to this API"
 )
 
-func HomePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome to the homepage")
-}
-
-func BasicAuth(handler http.HandlerFunc, username, password []byte, realm string) http.HandlerFunc {
+func basicAuth(handler http.HandlerFunc, username, password []byte, realm string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user, pass, ok := r.BasicAuth()
 
@@ -55,12 +50,12 @@ func hasher(s string) []byte {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", HomePage)
-	router.HandleFunc("/api/v1/todo", BasicAuth(model.CreateTodo, username, password, realm)).Methods("POST")
-	router.HandleFunc("/api/v1/todo", BasicAuth(model.GetTodos, username, password, realm)).Methods("GET")
-	router.HandleFunc("/api/v1/todo/{id}", BasicAuth(model.GetTodo, username, password, realm)).Methods("GET")
-	router.HandleFunc("/api/v1/todo/{id}", BasicAuth(model.UpdateTodo, username, password, realm)).Methods("PUT")
-	router.HandleFunc("/api/v1/todo/{id}", BasicAuth(model.DeleteTodo, username, password, realm)).Methods("DELETE")
+	router.Handle("/", http.FileServer(http.Dir("./static")))
+	router.HandleFunc("/api/v1/todo", basicAuth(model.CreateTodo, username, password, realm)).Methods("POST")
+	router.HandleFunc("/api/v1/todo", basicAuth(model.GetTodos, username, password, realm)).Methods("GET")
+	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.GetTodo, username, password, realm)).Methods("GET")
+	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.UpdateTodo, username, password, realm)).Methods("PUT")
+	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.DeleteTodo, username, password, realm)).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
