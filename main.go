@@ -48,9 +48,14 @@ func hasher(s string) []byte {
 	return value[:]
 }
 
+func faviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/favicon.ico")
+}
+
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/", http.FileServer(http.Dir("./static")))
+	router.HandleFunc("/favicon.ico", faviconHandler)
 	router.HandleFunc("/api/v1/todo", basicAuth(model.CreateTodo, username, password, realm)).Methods("POST")
 	router.HandleFunc("/api/v1/todo", basicAuth(model.GetTodos, username, password, realm)).Methods("GET")
 	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.GetTodo, username, password, realm)).Methods("GET")
