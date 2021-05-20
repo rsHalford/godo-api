@@ -1,4 +1,5 @@
 todos.db
+static/
 # Binaries for programs and plugins
 goapi
 *.exe
