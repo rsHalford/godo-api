@@ -128,4 +128,4 @@ WantedBy=multi-user.target
 
 GoAPI is released under the GNU General Public License v3.0.
 
-👉 See [LICENSE](https://github.com/rsHalford/godo/blob/main/LICENSE).
+👉 See [LICENSE](https://github.com/rsHalford/goapi/blob/main/LICENSE).
