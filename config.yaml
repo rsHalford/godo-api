@@ -1,0 +1,8 @@
+database:
+  username: 
+  password:
+  name:
+  port:
+api:
+  username:
+  password:

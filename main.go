@@ -21,11 +21,12 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rsHalford/goapi/model"
+	"github.com/rsHalford/goapi/config"
 )
 
 var (
-	username = hasher("username")
-	password = hasher("password")
+	username = hasher(config.GetAPIString("username"))
+	password = hasher(config.GetAPIString("password"))
 	realm    = "Please enter your username and password to gain access to this API"
 )
 
@@ -49,13 +50,13 @@ func hasher(s string) []byte {
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./static/favicon.ico")
+	http.ServeFile(w, r, "./static/favicon-32x32.png")
 }
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.Handle("/", http.FileServer(http.Dir("./static")))
-	router.HandleFunc("/favicon.ico", faviconHandler)
+	router.HandleFunc("/favicon-32x32.png", faviconHandler)
 	router.HandleFunc("/api/v1/todo", basicAuth(model.CreateTodo, username, password, realm)).Methods("POST")
 	router.HandleFunc("/api/v1/todo", basicAuth(model.GetTodos, username, password, realm)).Methods("GET")
 	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.GetTodo, username, password, realm)).Methods("GET")
