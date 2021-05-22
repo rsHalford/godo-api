@@ -20,8 +20,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/rsHalford/goapi/model"
 	"github.com/rsHalford/goapi/config"
+	"github.com/rsHalford/goapi/model"
 )
 
 var (

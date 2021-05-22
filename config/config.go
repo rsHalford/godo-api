@@ -40,7 +40,7 @@ type API struct {
 
 var (
 	dataCfg Database
-	apiCfg API
+	apiCfg  API
 	//cfgPath = "${XDG_CONFIG_HOME:-$HOME/.config}/godo/config.yaml"
 	cfgPath = "./config.yaml"
 )

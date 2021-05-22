@@ -17,8 +17,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/rsHalford/goapi/config"
 	"github.com/gorilla/mux"
+	"github.com/rsHalford/goapi/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -33,7 +33,7 @@ type Todo struct {
 }
 
 func InitDB() {
-	dsn := "user="+config.GetDatabaseString("username")+" password="+config.GetDatabaseString("password")+" dbname="+config.GetDatabaseString("name")+" port="+config.GetDatabaseString("port")
+	dsn := "user=" + config.GetDatabaseString("username") + " password=" + config.GetDatabaseString("password") + " dbname=" + config.GetDatabaseString("name") + " port=" + config.GetDatabaseString("port")
 	dbLoaded, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Cannot connect to DB")
