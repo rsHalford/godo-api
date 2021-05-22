@@ -22,65 +22,43 @@ import (
 )
 
 type Configuration struct {
-	Database string `yaml:"database"`
-	API      string `yaml:"api"`
-}
-
-type Database struct {
-	Username string `yaml:"username" env:"GOAPI_DATABASE_USERNAME"`
-	Password string `yaml:"password" env:"GOAPI_DATABASE_PASSWORD"`
-	Name     string `yaml:"api" env:"GOAPI_DATABASE_NAME"`
-	Port     string `yaml:"editor" env:"GOAPI_DATABASE_PORT"`
-}
-
-type API struct {
-	Username string `yaml:"username" env:"GOAPI_API_USERNAME"`
-	Password string `yaml:"password" env:"GOAPI_API_PASSWORD"`
+	DBUsername string `yaml:"db_username" env:"GOAPI_DB_USERNAME"`
+	DBPassword string `yaml:"db_password" env:"GOAPI_DB_PASSWORD"`
+	Name     string `yaml:"name" env:"GOAPI_DB_NAME"`
+	Port     string `yaml:"port" env:"GOAPI_DB_PORT"`
+	APIUsername string `yaml:"api_username" env:"GOAPI_API_USERNAME"`
+	APIPassword string `yaml:"api_password" env:"GOAPI_API_PASSWORD"`
 }
 
 var (
-	dataCfg Database
-	apiCfg  API
+	cfg Configuration
 	//cfgPath = "${XDG_CONFIG_HOME:-$HOME/.config}/godo/config.yaml"
 	cfgPath = "./config.yaml"
 )
 
-func GetDatabaseString(key string) string {
-	if err := cleanenv.ReadConfig(cfgPath, &dataCfg); err != nil {
+func GetString(key string) string {
+	if err := cleanenv.ReadConfig(cfgPath, &cfg); err != nil {
 		fmt.Println(err)
 	}
 
 	switch key {
 	case "name":
-		value := dataCfg.Name
+		value := cfg.Name
 		return value
-	case "username":
-		value := dataCfg.Username
+	case "db_username":
+		value := cfg.DBUsername
 		return value
-	case "password":
-		value := dataCfg.Password
+	case "db_password":
+		value := cfg.DBPassword
 		return value
 	case "port":
-		value := dataCfg.Port
+		value := cfg.Port
 		return value
-	default:
-		fmt.Println("No configuration key provided")
-	}
-
-	return ""
-}
-
-func GetAPIString(key string) string {
-	if err := cleanenv.ReadConfig(cfgPath, &apiCfg); err != nil {
-		fmt.Println(err)
-	}
-
-	switch key {
-	case "username":
-		value := apiCfg.Username
+	case "api_username":
+		value := cfg.APIUsername
 		return value
-	case "password":
-		value := apiCfg.Password
+	case "api_password":
+		value := cfg.APIPassword
 		return value
 	default:
 		fmt.Println("No configuration key provided")

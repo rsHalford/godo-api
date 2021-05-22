@@ -33,7 +33,7 @@ type Todo struct {
 }
 
 func InitDB() {
-	dsn := "user=" + config.GetDatabaseString("username") + " password=" + config.GetDatabaseString("password") + " dbname=" + config.GetDatabaseString("name") + " port=" + config.GetDatabaseString("port")
+	dsn := "user=" + config.GetString("db_username") + " password=" + config.GetString("db_password") + " dbname=" + config.GetString("name") + " port=" + config.GetString("port")
 	dbLoaded, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Cannot connect to DB")

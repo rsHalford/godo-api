@@ -1,8 +1,6 @@
-database:
-  username: 
-  password:
-  name:
-  port:
-api:
-  username:
-  password:
+db_username: 
+db_password:
+name:
+port:
+api_username:
+api_password:

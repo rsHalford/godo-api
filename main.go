@@ -25,8 +25,8 @@ import (
 )
 
 var (
-	username = hasher(config.GetAPIString("username"))
-	password = hasher(config.GetAPIString("password"))
+	username = hasher(config.GetString("api_username"))
+	password = hasher(config.GetString("api_password"))
 	realm    = "Please enter your username and password to gain access to this API"
 )
 
