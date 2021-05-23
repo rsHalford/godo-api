@@ -8,9 +8,8 @@
 
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
-  - [Recommendations](#recommendations)
-    - [Basic Authentication](#basic-authentication)
-    - [Database](#database)
+  - [Setting Up](#setting-up)
+    - [Authentication](#authentication)
     - [Server](#server)
     - [Daemonize](#daemonize)
 - [Licence](#licence)
@@ -32,7 +31,7 @@ To edit the necessary variables to hook up GoAPI with a database. You will need 
 $ git clone github.com/rsHalford/goapi
 ```
 
-Then after making the [necessary changes](#basic-authentication) to the source code. Build the GoAPI binary, for the operating server it will be ran on.
+Then after making the [necessary changes](#setting-up) to the source code. Build the GoAPI binary, for the operating server it will be ran on.
 
 ```sh
 $ env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build github.com/rsHalford/goapi
@@ -47,33 +46,30 @@ Then you would need to have a web server installed and a way to run GoAPI as a d
 
 > These recommendations are based on what I found to work best for my setup.
 
-## Recommendations
+## Setting Up
 
-To setup the server application, there a four changes that need to be made.
+To setup the server application, there a three changes that need to be made.
 
-### Basic Authentication
+### Authentication
 
-To secure your todo list online, you will need to change the `username` and `password` variables, required to access the API endpoints. These variables are found at the top of the `main.go` file.
+To secure your todo list online, you will need to change the `api_username` and `api_password` variables, required to access the API endpoints. These variables are found in the `config.yaml` file.
 
-```go
-...
-var (
-    username  = hasher("username")
-    password  = hasher("password")
-    realm     = "Please enter your username and password to gain access to this API"
-)
-...
+These values will be what you send to the API with each request, using Basic Authentication.
+
+> An example of the `config.yaml` can be found in the [project's repository](https://github.com/rsHalford/goapi/blob/main/config.yaml)
+
+```yaml
+api_username: "username"
+api_password: "password"
 ```
 
-### Database
+Currently GoAPI only supports PostgreSQL. To link up the server to a database, make sure to edit the `config.yaml`. Providing the `db_username`, `db_password`, `name` and `port` - relating to your database address.
 
-Currently GoAPI only supports PostgreSQL. To link up the server to a database, make sure to edit the `dsn` variable to provide the `user`, `password` and `dbname` relating to your database address. This is found in the `model/model.go` file.
-
-```go
-...
-func InitDB() {
-    dsn := "user=user password=password dbname=goapi port=5432"
-...
+```yaml
+db_username: "username"
+db_password: "password"
+name: "goapi"
+port: "5432"
 ```
 
 ### Server
