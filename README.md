@@ -2,6 +2,8 @@
 
 ## GoAPI was built to support the GoDo application, in providing a RESTful API.
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/rsHalford/goapi.svg)](https://pkg.go.dev/github.com/rsHalford/goapi)
+
 ---
 
 # Table of Contents
