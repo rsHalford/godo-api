@@ -27,6 +27,7 @@ var db *gorm.DB
 
 type Todo struct {
 	gorm.Model
+	Title    string `json:"title"`
 	Body     string `json:"body"`
 	Priority bool   `json:"priority"`
 	Status   bool   `json:"status"`

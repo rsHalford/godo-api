@@ -22,10 +22,10 @@ import (
 )
 
 type Configuration struct {
-	DBUsername string `yaml:"db_username" env:"GOAPI_DB_USERNAME"`
-	DBPassword string `yaml:"db_password" env:"GOAPI_DB_PASSWORD"`
-	Name     string `yaml:"name" env:"GOAPI_DB_NAME"`
-	Port     string `yaml:"port" env:"GOAPI_DB_PORT"`
+	DBUsername  string `yaml:"db_username" env:"GOAPI_DB_USERNAME"`
+	DBPassword  string `yaml:"db_password" env:"GOAPI_DB_PASSWORD"`
+	Name        string `yaml:"name" env:"GOAPI_DB_NAME"`
+	Port        string `yaml:"port" env:"GOAPI_DB_PORT"`
 	APIUsername string `yaml:"api_username" env:"GOAPI_API_USERNAME"`
 	APIPassword string `yaml:"api_password" env:"GOAPI_API_PASSWORD"`
 }
