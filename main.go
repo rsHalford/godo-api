@@ -30,6 +30,25 @@ var (
 	realm    = "Please enter your username and password to gain access to this API"
 )
 
+type Server struct {
+	router *mux.Router
+}
+
+func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization")
+	}
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	// Lets Gorilla work
+	s.router.ServeHTTP(w, r)
+}
+
 func basicAuth(handler http.HandlerFunc, username, password []byte, realm string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user, pass, ok := r.BasicAuth()
@@ -62,7 +81,7 @@ func handleRequests() {
 	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.GetTodo, username, password, realm)).Methods("GET")
 	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.UpdateTodo, username, password, realm)).Methods("PUT")
 	router.HandleFunc("/api/v1/todo/{id}", basicAuth(model.DeleteTodo, username, password, realm)).Methods("DELETE")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8080", &Server{router}))
 }
 
 func main() {
