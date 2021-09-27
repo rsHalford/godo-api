@@ -22,12 +22,11 @@ import (
 )
 
 type Configuration struct {
-	DBUsername  string `yaml:"db_username" env:"GOAPI_DB_USERNAME"`
-	DBPassword  string `yaml:"db_password" env:"GOAPI_DB_PASSWORD"`
-	Name        string `yaml:"name" env:"GOAPI_DB_NAME"`
-	Port        string `yaml:"port" env:"GOAPI_DB_PORT"`
-	APIUsername string `yaml:"api_username" env:"GOAPI_API_USERNAME"`
-	APIPassword string `yaml:"api_password" env:"GOAPI_API_PASSWORD"`
+	DBUsername  string `env:"DB_USERNAME"`
+	DBPassword  string `env:"DB_PASSWORD"`
+	DBName      string `env:"DB_NAME"`
+	APIUsername string `env:"API_USERNAME"`
+	APIPassword string `env:"API_PASSWORD"`
 }
 
 var (
@@ -42,22 +41,19 @@ func GetString(key string) string {
 	}
 
 	switch key {
-	case "name":
-		value := cfg.Name
+	case "DB_NAME":
+		value := cfg.DBName
 		return value
-	case "db_username":
+	case "DB_USERNAME":
 		value := cfg.DBUsername
 		return value
-	case "db_password":
+	case "DB_PASSWORD":
 		value := cfg.DBPassword
 		return value
-	case "port":
-		value := cfg.Port
-		return value
-	case "api_username":
+	case "API_USERNAME":
 		value := cfg.APIUsername
 		return value
-	case "api_password":
+	case "API_PASSWORD":
 		value := cfg.APIPassword
 		return value
 	default:

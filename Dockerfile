@@ -6,7 +6,7 @@
 FROM golang:1.17-bullseye AS build
 
 # Set current working directory inside container
-WORKDIR /app/goapi-server
+WORKDIR /app
 
 # Copy dependency files to the PWD
 COPY go.mod ./
@@ -15,9 +15,7 @@ COPY go.sum ./
 # Download Go module dependencies
 RUN go mod download
 
-COPY *.go ./
-COPY config/ ./
-COPY model/ ./
+COPY . ./
 
 # Build GoAPI binary and name it /server
 RUN go build -o /goapi-server

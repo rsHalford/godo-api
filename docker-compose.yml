@@ -1,17 +1,12 @@
 version: '3'
 services:
   db:
-    image: postrges
+    image: postgres
     container_name: goapi-db
     environment:
-      #- POSTGRES_USER=${GOAPI_DB_USERNAME}
-      #- POSTGRES_PASSWORD=${GOAPI_DB_PASSWORD}
-      #- POSTGRES_DB=${GOAPI_DB_NAME}
-      #- POSTGRES_PORT=${GOAPI_DB_PORT}
-      - POSTGRES_USER=username
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=demodb
-      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
       - 5432:5432
     volumes:
@@ -19,7 +14,7 @@ services:
   server:
     container_name: goapi-server
     build:
-      context: ./goapi-server
+      context: ./
       dockerfile: Dockerfile
     volumes:
       - ./goapi-server:/app/goapi-server
