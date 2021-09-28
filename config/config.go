@@ -29,14 +29,10 @@ type Configuration struct {
 	APIPassword string `env:"API_PASSWORD"`
 }
 
-var (
-	cfg Configuration
-	//cfgPath = "${XDG_CONFIG_HOME:-$HOME/.config}/godo/config.yaml"
-	cfgPath = "./config.yaml"
-)
+var cfg Configuration
 
 func GetString(key string) string {
-	if err := cleanenv.ReadConfig(cfgPath, &cfg); err != nil {
+	if err := cleanenv.ReadEnv(&cfg); err != nil {
 		fmt.Println(err)
 	}
 
