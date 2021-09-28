@@ -16,17 +16,19 @@ package main
 import (
 	"crypto/sha256"
 	"crypto/subtle"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/rsHalford/goapi/config"
+	"github.com/joho/godotenv"
 	"github.com/rsHalford/goapi/model"
 )
 
 var (
-	username = hasher(config.GetString("API_PASSWORD"))
-	password = hasher(config.GetString("API_USERNAME"))
+	username = hasher(os.Getenv("API_PASSWORD"))
+	password = hasher(os.Getenv("API_USERNAME"))
 	realm    = "Please enter your username and password to gain access to this API"
 )
 
@@ -85,6 +87,9 @@ func handleRequests() {
 }
 
 func main() {
+	if err := godotenv.Load(".env"); err != nil {
+		fmt.Println(err)
+	}
 	model.InitDB()
 	handleRequests()
 }
