@@ -1,37 +1,42 @@
 # syntax=docker/dockerfile:1
 
+ARG BUILDER_IMAGE=golang:bullseye
+ARG DISTROLESS_IMAGE=gcr.io/distroless/base-debian11
+
 # Build
 
 # Base image for the go application
-FROM golang:1.17-bullseye AS build
+FROM ${BUILDER_IMAGE} AS builder
+
+RUN update-ca-certificates
 
 # Set current working directory inside container
 WORKDIR /app
 
 # Copy dependency files to the PWD
-COPY go.mod ./
-COPY go.sum ./
+COPY go.mod .
+
+ENV GO111MODULE=on
 
 # Download Go module dependencies
 RUN go mod download
+RUN go mod verify
 
-COPY . ./
+COPY . .
 
-# Build GoAPI binary and name it /server
-RUN go build -o /goapi-server
+# Build GoAPI binary
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o main .
+
 
 # Deploy
 
-FROM gcr.io/distroless/base-debian11
+FROM ${DISTROLESS_IMAGE}
 
-WORKDIR /
-
-COPY --from=build /goapi-server /goapi-server
+COPY --from=builder /app/main .
+COPY --from=builder /app/.env .
 
 # Expose port 8080 of the container
 EXPOSE 8080
 
-USER nonroot:nonroot
-
 # Run the executable
-ENTRYPOINT ["/goapi-server"]
+ENTRYPOINT ["./main"]

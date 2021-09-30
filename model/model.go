@@ -34,7 +34,7 @@ type Todo struct {
 }
 
 func InitDB() {
-	dsn := "host=db user=" + os.Getenv("DB_USERNAME") + " password=" + os.Getenv("DB_PASSWORD") + " dbname=" + os.Getenv("DB_NAME") + " port=5432"
+	dsn := os.ExpandEnv("host=db user=$POSTGRES_USER password=$POSTGRES_PASSWORD dbname=$POSTGRES_DB port=5432")
 	dbLoaded, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Cannot connect to DB")
