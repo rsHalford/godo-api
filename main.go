@@ -21,12 +21,12 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/rsHalford/goapi/model"
+	"github.com/rsHalford/godo-api/model"
 )
 
 var (
-	username = hasher(os.Getenv("GOAPI_USER"))
-	password = hasher(os.Getenv("GOAPI_PASSWORD"))
+	username = hasher(os.Getenv("GODO_API_USER"))
+	password = hasher(os.Getenv("GODO_API_PASSWORD"))
 	realm    = "Please enter your username and password to gain access to this API"
 )
 

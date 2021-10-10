@@ -1,7 +1,7 @@
 todos.db
 static/
 # Binaries for programs and plugins
-goapi
+godo-api
 *.exe
 *.exe~
 *.dll

@@ -2,7 +2,7 @@ version: '3.7'
 services:
   db:
     image: postgres
-    container_name: goapi-db
+    container_name: godo-api-db
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -13,18 +13,18 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
   server:
-    container_name: goapi-server
+    container_name: godo-api-server
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - GOAPI_USER=${GOAPI_USER}
-      - GOAPI_PASSWORD=${GOAPI_PASSWORD}
+      - GODO_API_USER=${GODO_API_USER}
+      - GODO_API_PASSWORD=${GODO_API_PASSWORD}
     build:
       context: ./
       dockerfile: Dockerfile
     volumes:
-      - ./goapi-server:/app/goapi-server
+      - ./godo-api-server:/app/godo-api-server
     expose:
       - 8080
     depends_on:
