@@ -29,6 +29,7 @@ type Todo struct {
 	gorm.Model
 	Title    string `json:"title"`
 	Body     string `json:"body"`
+	Tag      string `json:"tag"`
 	Priority bool   `json:"priority"`
 	Status   bool   `json:"status"`
 }
